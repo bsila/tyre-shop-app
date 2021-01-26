@@ -9,6 +9,8 @@ const saltRounds = 10; //konstanta za hashiranje
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
+const fileUpload = require("express-fileupload");
+const morgan = require("morgan");
 
 const db = mysql.createPool({
   host: "localhost",
@@ -39,6 +41,12 @@ app.use(
     },
   })
 );
+app.use(
+  fileUpload({
+    createParentPath: true,
+  })
+);
+app.use(morgan("dev"));
 
 const verifyJWT = (req, res, next) => {
   const token = req.headers["x-access-token"]; //uzimamo jwt kroz header
@@ -206,25 +214,80 @@ app.put("/api/updateNotification", (req, res) => {
   const notification_mode = req.body.notification_mode;
   const notification_interval = req.body.notification_interval;
 
-  const sqlUpdate =
-    "UPDATE orders SET notification_mode = ?, notification_interval = ? WHERE receipt_no = ?";
+  const sqlSelect = "SELECT idorder FROM orders WHERE receipt_no = ?";
+  db.query(sqlSelect, receipt, (error, result) => {
+    if (error || result.length < 1) {
+      console.log(error);
+      res.send(false);
+      return;
+    } else {
+      const sqlUpdate =
+        "UPDATE orders SET notification_mode = ?, notification_interval = ? WHERE receipt_no = ?";
 
-  db.query(
-    sqlUpdate,
-    [notification_mode, notification_interval, receipt],
-    (error, result) => {
-      // console.log("Result: ");
-      // console.log(result);
-      // console.log("Error: ");
-      // console.log(err);
-      if (error) {
-        console.log(error);
-        res.send("error");
-      } else {
-        res.send("success");
-      }
+      db.query(
+        sqlUpdate,
+        [notification_mode, notification_interval, receipt],
+        (error, result) => {
+          // console.log("Result: ");
+          // console.log(result);
+          // console.log("Error: ");
+          // console.log(err);
+          if (error) {
+            console.log(error);
+            res.send(false);
+          } else {
+            res.send(true);
+          }
+        }
+      );
     }
-  );
+  });
+});
+
+app.post("/api/insertOffer", (req, res) => {
+  console.log("Running on 3001/api/insertOffer");
+
+  try {
+    if (!req.files || !req.body) {
+      res.send({
+        status: false,
+        message: "Došlo je do greške", //"No files/body.",
+      });
+    } else {
+      //SPREMANJE SLIKE
+      const { picture } = req.files;
+      picture.mv("../client/public/images/" + picture.name);
+      picture.mv("../client/src/images/" + picture.name);
+
+      //UNOS PODATAKA U BAZU
+      const img_src = "../images/" + picture.name;
+      const img_alt = req.body.img_alt;
+      const tyre_path = "/" + req.body.name;
+      const name = req.body.name;
+      const data = req.body.data;
+      const price = req.body.price;
+
+      const sqlInsert =
+        "INSERT INTO offers (img_src, img_alt, tyre_path, name, data, price) VALUES (?, ?, ?, ?, ?, ?)";
+
+      db.query(
+        sqlInsert,
+        [img_src, img_alt, tyre_path, name, data, price],
+        (error, result) => {
+          if (error) {
+            console.log(error);
+          }
+        }
+      );
+
+      res.send({
+        status: true,
+        message: "Nova ponuda unesena.",
+      });
+    }
+  } catch (e) {
+    res.status(500).send(e);
+  }
 });
 
 app.get("/api/getOffers", (req, res) => {

@@ -12,6 +12,7 @@ import Login from "./components/pages/Login";
 import Notification from "./components/pages/Notification";
 import NotificationManager from "./components/pages/NotificationManager";
 import Offer from "./components/pages/Offer";
+import OfferManager from "./components/pages/OfferManager";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Navbar></Navbar>
 
         <Switch>
-          <Route path="/appointment" exact component={Appointment} />
+          <Route path="/appointment/:id?" exact component={Appointment} />
           <Route
             path="/appointmentManager"
             exact
@@ -37,6 +38,7 @@ function App() {
             component={NotificationManager}
           />
           <Route path="/offer" exact component={Offer} />
+          <Route path="/offerManager" exact component={OfferManager} />
         </Switch>
 
         <Footer />
