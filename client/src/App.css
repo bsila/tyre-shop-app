@@ -11,7 +11,7 @@
 .notification,
 .help,
 .contact,
-.log-in {
+.login {
   display: flex;
   height: 90vh;
   align-items: center;
@@ -19,7 +19,11 @@
   font-size: 3rem;
 }
 
-.appointment, .notification, .help, .contact {
+.appointment,
+.notification,
+.help,
+.contact,
+.login {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -42,15 +46,18 @@
   max-width: 750px;
 }
 
-.appointment > .form--container > .title, .notification > .form--container > .title {
+.appointment > .form--container > .title,
+.notification > .form--container > .title {
   text-align: start;
 }
 
-.help > .form--container > .title, .contact > .form--container > .title{
+.help > .form--container > .title,
+.contact > .form--container > .title {
   text-align: center;
 }
 
-.help > .form--container > .text, .contact > .form--container > .text{
+.help > .form--container > .text,
+.contact > .form--container > .text {
   width: 100%;
   font-size: 24px;
   text-align: left;
@@ -102,7 +109,8 @@
   padding-left: 10%;
 }
 
-.appointment > .form--container > .comment--textarea, .contact > .form--container > .comment--textarea {
+.appointment > .form--container > .comment--textarea,
+.contact > .form--container > .comment--textarea {
   margin-top: 20px;
   padding: 10px;
   /*font-size: 17px;*/
@@ -111,7 +119,8 @@
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.appointmentManager, .notificationManager {
+.appointmentManager,
+.notificationManager {
   position: relative;
   top: 50%;
   left: 50%;
@@ -120,6 +129,34 @@
   width: 75%;
   overflow-x: auto;
   white-space: nowrap;
+}
+
+.manager--login--button {
+  margin: auto;
+  justify-content: center;
+  width: 94px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.login--logout--button {
+  margin: auto;
+  justify-content: center;
+  width: 94px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.loggedin--links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  justify-content: center;
+  width: 55px;
+  border: 1px solid blue;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .modal {
@@ -148,13 +185,13 @@
   flex-wrap: wrap;
   justify-content: center;
   flex-direction: column;
+  padding-bottom: 10px;
 }
 
 .content > .container > .message {
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
-  padding: 5px;
 }
 
 .modal > .actions {
@@ -164,8 +201,17 @@
   text-align: center;
 }
 
+.container > .notification--select {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.container > .button {
+  margin-top: 20px;
+}
+
 .offer {
-  background-image: url("./images/img-2.jpg");
+  background-image: url("./images/img-offer.jpg");
   background-position: center;
   background-size: fill;
   background-repeat: no-repeat;
@@ -174,10 +220,43 @@
 }
 
 .log-in {
-  background-image: url("./images/img-8.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   color: #fff;
   font-size: 100px;
+}
+
+.contact--info {
+  padding-bottom: 35px;
+}
+
+.loggedin--info {
+  margin-top: 110px;
+  margin-bottom: 110px;
+}
+
+.contact--info--row,
+.loggedin--info--row {
+  display: flex;
+  justify-content: center;
+  /* border: 1px solid greenyellow; */
+  font-size: 1.25rem;
+}
+
+.contact--info--column,
+.loggedin--info--column {
+  width: 25%;
+  /* border: 1px solid salmon; */
+  font-size: 2rem;
+}
+
+.contact--info--column--title,
+.loggedin--info--column--title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  /* border: 1px solid salmon; */
+  font-size: 2rem;
 }
